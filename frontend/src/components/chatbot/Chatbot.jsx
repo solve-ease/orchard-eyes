@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import VoiceInput from './VoiceInput'
 import ChatBotImg from '../../assets/img/chatbot-img.png'
 import { getPrediction } from '../../utils/gradioConfig'
 import { SyncLoader } from 'react-spinners'
-import { Mic, MicOff, Send, X } from 'lucide-react'
+import { ArrowLeft, Bot, Mic, MicOff, Notebook, Send, X } from 'lucide-react'
 import ChatSpeak from '../SpeakOutLoud'
+import OrchardInsights from '../OrchardInsights'
+import { useNavigate } from 'react-router-dom'
+import AccessibilityMenu from '../AccessibilityMenu'
 const Main = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isOpened'].includes(prop)
 })`
@@ -46,15 +49,15 @@ const Message = styled.div.withConfig({
 const Button = styled.button`
   padding: 5px;
 `
-
 const Chatbot = () => {
+  const [selectedTab, setSelectedTab] = useState('chat')
   const [isOpened, setIsOpened] = useState(null)
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [detectedLanguage, setDetectedLanguage] = useState('')
   const [gettingPrediction, setGettingPrediction] = useState(false)
   const textAreaRef = useRef(null)
-
+  const navigate = useNavigate()
   useEffect(() => {
     const handleResize = () => {
       if (window.matchMedia('(max-width: 768px)').matches) {
@@ -137,69 +140,86 @@ const Chatbot = () => {
   return (
     <>
       <Main
-        className={`sm:fixed right-0 bottom-0 sm:bottom-24 sm:right-4 flex flex-col gap-6 transition-all duration-500 p-2 items-center justify-center sm:shadow-lg sm:rounded-lg ${isOpened ? 'sm:scale-100' : 'sm:scale-0'} transition-transform bg-white`}
+        className={`sm:fixed right-0 bottom-0 sm:bottom-24 sm:right-4 flex flex-col gap-6 transition-all duration-500 items-center justify-center sm:shadow-lg sm:rounded-lg ${isOpened ? 'sm:scale-100' : 'sm:scale-0'} transition-transform bg-white`}
         isOpened={isOpened}
       >
         {/* {isOpened && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"></div>
             )} */}
 
-        <div className='flex bg-gradient-to-br from-red-600 to-red-800 h-10 rounded-md flex items-center px-2 justify-between w-full'>
-          <h3 className='text-white text-lg'>Orchard AI</h3>
-          <i className='fa-solid fa-ellipsis text-white'></i>
+        <div className='w-screen flex h-10 rounded-md flex items-center px-2 pt-4 justify-between w-full'>
+          <ArrowLeft onClick={() => navigate(-1)} />
+          <div className='flex items-center space-x-2 gap-4'>
+            <div
+              className={`flex items-center border-b-2 pb-2 ${selectedTab === 'chat' ? 'border-red-500 text-[#ef0606]' : 'border-white text-[#ebafaf]'}`}
+              onClick={() => setSelectedTab('chat')}
+            >
+              <Bot size={30} />
+            </div>
+            <div
+              className={`flex items-center border-b-2 pb-2 ${selectedTab === 'insights' ? 'border-red-500 text-[#ef0606]' : 'border-white text-[#ebafaf]'}`}
+              onClick={() => setSelectedTab('insights')}
+            >
+              <Notebook size={25} />
+            </div>
+          </div>
+          <i className='fa-solid fa-ellipsis text-red'></i>
         </div>
-        <div
-          className={`w-[90vw] h-[85vh] sm:w-72 sm:h-80 flex flex-col justify-between bg-white  duration-500 rounded-lg relative`}
-        >
-          <MessagesContainer className='custom-scrollbar text-sm absolute top-0 w-full'>
-            {messages.map((msg, index) => (
-              <div key={index}>
-                <Message sender={msg.sender}>{msg.text}</Message>
-                <ChatSpeak message={msg.text} />
-              </div>
-            ))}
-            <Message sender='bot'>
-              <SyncLoader
-                color='#7c0a0a'
-                size={10}
-                speedMultiplier={0.5}
-                loading={gettingPrediction}
-              />
-            </Message>
-          </MessagesContainer>
-          <div className='fixed bottom-0 left-0 right-0 bg-white px-2 py-3 rounded-lg'>
-            <div className='max-w-4xl mx-auto'>
-              <div className='relative flex items-center space-x-2'>
-                <textarea
-                  className='w-full bg-gray-100 rounded-full p-2  text-gray-700 
-                     placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 
-                     focus:border-transparent resize-none min-h-[42px] max-h-[200px] overflow-hidden'
-                  rows={1}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder='Type a message...'
-                  onInput={adjustTextareaHeight}
-                  ref={textAreaRef}
+        {selectedTab === 'chat' && (
+          <div
+            className={`w-[90vw] h-[85vh] sm:w-72 sm:h-80 flex flex-col justify-between bg-white duration-500 rounded-lg relative`}
+          >
+            <MessagesContainer className='custom-scrollbar text-sm absolute top-0 w-full'>
+              {messages.map((msg, index) => (
+                <div key={index}>
+                  <Message sender={msg.sender}>{msg.text}</Message>
+                  <ChatSpeak message={msg.text} />
+                </div>
+              ))}
+              <Message sender='bot'>
+                <SyncLoader
+                  color='#7c0a0a'
+                  size={10}
+                  speedMultiplier={0.5}
+                  loading={gettingPrediction}
                 />
-
-                <div className='absolute right-2 flex items-center space-x-2'>
-                  <VoiceInput
-                    onTranscript={handleVoiceInput}
-                    onLanguageDetected={handleLanguageDetected}
-                    className='p-2 hover:bg-gray-200 rounded-full transition-colors duration-200'
+              </Message>
+            </MessagesContainer>
+            <div className='fixed bottom-0 left-0 right-0 bg-white px-2 py-3 rounded-lg'>
+              <div className='max-w-4xl mx-auto'>
+                <div className='relative flex items-center space-x-2'>
+                  <textarea
+                    className='w-full bg-gray-100 rounded-full p-2  text-gray-700 
+                       placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                       focus:border-transparent resize-none min-h-[42px] max-h-[200px] overflow-hidden'
+                    rows={1}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder='Type a message...'
+                    onInput={adjustTextareaHeight}
+                    ref={textAreaRef}
                   />
-                  <Button
-                    onClick={handleSend}
-                    className='p-2 hover:bg-gray-200 rounded-full transition-colors duration-200'
-                  >
-                    <Send size={20} />
-                  </Button>
+
+                  <div className='absolute right-2 flex items-center space-x-2'>
+                    <VoiceInput
+                      onTranscript={handleVoiceInput}
+                      onLanguageDetected={handleLanguageDetected}
+                      className='p-2 hover:bg-gray-200 rounded-full transition-colors duration-200'
+                    />
+                    <Button
+                      onClick={handleSend}
+                      className='p-2 hover:bg-gray-200 rounded-full transition-colors duration-200'
+                    >
+                      <Send size={20} />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+        {selectedTab === 'insights' && <OrchardInsights />}
       </Main>
       <div
         className='hidden sm:flex w-16 h-16 bg-red-800 rounded-full items-center justify-center z-110 fixed bottom-5 right-5 cursor-pointer z-[1000]'
@@ -213,6 +233,7 @@ const Chatbot = () => {
           <X size={30} color='#fff' />
         )}
       </div>
+      <AccessibilityMenu />
     </>
   )
 }
