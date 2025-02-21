@@ -3,11 +3,11 @@ async function main() {
   const [deployer] = await ethers.getSigners()
   console.log('Deploying contracts with account:', deployer.address)
 
-  const Farm = await ethers.getContractFactory('Farm')
-  const farm = await Farm.deploy()
-  await farm.deployed()
+  const Contract = await ethers.getContractFactory('OrchardQuality')
+  const contract = await Contract.deploy()
+  await contract.deployed()
 
-  console.log('Contract deployed to:', farm.address)
+  console.log('Contract deployed to:', contract.address)
 }
 
 main()
