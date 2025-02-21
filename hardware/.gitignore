@@ -1,0 +1,6 @@
+myenv/
+tree-detection/val
+tree-detection/train
+**/*.pt
+**/__pycache__
+**/*.mp4
