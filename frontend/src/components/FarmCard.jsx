@@ -124,7 +124,7 @@ const FarmDashboard = ({ weatherData }) => {
             >
               OVERVIEW
             </h2>
-            <div className='grid grid-cols-2 sm:grid-cols-2 gap-y-4 w-[80vw]'>
+            <div className='grid grid-cols-2 sm:grid-cols-2 gap-y-4 sm:gap-x-8 w-[80vw] sm:w-auto'>
               <div className='flex items-start space-x-3'>
                 <div className='p-2 bg-white/20 backdrop-blur-sm rounded-full'>
                   <Leaf className='text-white' size={24} />

@@ -35,7 +35,7 @@ const SidebarLeft = ({ activeTab, setActiveTab }) => {
               onClick={() => {
                 navigate('/farm-management/dashboard')
               }}
-              className={`flex items-center p-2 rounded-md ${activeTab === 'Dashboard' || activeTab === 'Analysis' ? 'bg-green-200' : ''} sm:gap-2`}
+              className={`flex items-center p-2 rounded-md ${activeTab === 'Dashboard' || activeTab === 'Weather' || activeTab === 'Analysis' ? 'bg-green-200' : ''} sm:gap-2`}
             >
               <LayoutDashboard size={22} />
               <span className='hidden sm:flex'>Dashboard</span>
