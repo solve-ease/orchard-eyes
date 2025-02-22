@@ -9,6 +9,7 @@ import base64
 from models.image_processing.ocr_tesseract import SoilHealthOCR
 from models.image_processing.yolo_detection.plant_part_detect import get_predictions_with_annotations
 from models.image_processing.yolo_detection.tree_detect import get_tree_detection
+from models.rag.retriever import PineconeRetriever
 
 app = Flask(__name__)
 
@@ -16,6 +17,20 @@ app = Flask(__name__)
 @app.route('/ping', methods=['GET'])
 def ping():
     return jsonify({'message': 'API is running'}), 200
+
+# Add a Route for sending the gemini repsonse
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        rag_client = PineconeRetriever()
+    except Exception as e:
+        return jsonify({'message': f'Error: {str(e)}'}), 500
+    
+    data = request.get_json()
+    
+    user_input = data.get('user_input')
+    response = rag_client.query_rag(user_input)
+    return jsonify({'response': response}), 200
 
 # Login Endpoint
 @app.route('/login', methods=['POST'])
