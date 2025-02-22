@@ -22,6 +22,7 @@ import About from './pages/AboutPage'
 import ExpandedWeatherCard from './components/ExpandedWeatherCard'
 import MapComponent from './components/MapComponent'
 import { FontSizeProvider } from './components/FontSizeProvider'
+import MobileOnlyModal from './components/MobileOnlyModal'
 
 function App() {
   return <AppContent />
@@ -139,6 +140,7 @@ function AppContent() {
   }
   return (
     <FontSizeProvider>
+      <MobileOnlyModal />
       <Navbar
         background={isOrchardRoute ? '#f4f4f4' : 'transparent'}
         isAuthenticated={isAuthenticated}
@@ -147,6 +149,16 @@ function AppContent() {
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/ownerPage' element={<ProfilePage />} />
+          {/* <Route
+            path='farm-management'
+            element={
+              <OrchardManagement
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                handleWeatherData={handleWeatherData}
+              />
+            }
+          > */}
           <Route
             path='farm-management'
             element={
@@ -154,22 +166,10 @@ function AppContent() {
                 <OrchardManagement
                   activeTab={activeTab}
                   setActiveTab={setActiveTab}
-                  handleWeatherData={handleWeatherData}
                 />
               </ProtectedRoute>
             }
           >
-            {/* <Route
-            path='farm-management'
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <OrchardManagement
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                />
-              </ProtectedRoute>
-            }
-          > */}
             <Route
               path='analysis'
               element={
