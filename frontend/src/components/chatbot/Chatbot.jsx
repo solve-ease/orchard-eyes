@@ -169,7 +169,7 @@ const Chatbot = () => {
           <div
             className={`w-[90vw] h-[85vh] sm:w-72 sm:h-80 flex flex-col justify-between bg-white duration-500 rounded-lg relative`}
           >
-            <MessagesContainer className='custom-scrollbar text-sm absolute top-0 w-full'>
+            <MessagesContainer className='custom-scrollbar text-sm absolute top-0 w-full mb-10'>
               {messages.map((msg, index) => (
                 <div key={index}>
                   <Message sender={msg.sender}>{msg.text}</Message>

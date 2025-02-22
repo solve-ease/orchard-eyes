@@ -9,7 +9,9 @@ import Auth0ProviderWithHistory from './auth/Auth0ProviderWithHistory.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
-      <App />
+      <Auth0ProviderWithHistory>
+        <App />
+      </Auth0ProviderWithHistory>
     </Router>
   </StrictMode>
 )

@@ -43,6 +43,14 @@ function AppContent() {
   const [weatherData, setWeatherData] = useState(null)
   const [userLocation, setUserLocation] = useState(null)
   const [isLoadingWeatherData, setIsLoadingWeatherData] = useState(true)
+
+  useEffect(() => {
+    const wrapper = document.getElementById('gt_float_wrapper')
+    if (wrapper) {
+      wrapper.style.display = 'none'
+      wrapper.style.bottom = '10vh'
+    }
+  }, [])
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -142,11 +150,13 @@ function AppContent() {
           <Route
             path='farm-management'
             element={
-              <OrchardManagement
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                handleWeatherData={handleWeatherData}
-              />
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <OrchardManagement
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  handleWeatherData={handleWeatherData}
+                />
+              </ProtectedRoute>
             }
           >
             {/* <Route

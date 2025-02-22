@@ -23,10 +23,42 @@ app.use(
   })
 )
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+// sse setup
+let clients = []
+
+app.get('/events', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
+
+  // Send an initial connection confirmation
+  // res.write(
+  //   `data: ${JSON.stringify({
+  //     status: 'Connected',
+  //     timestamp: new Date().toISOString()
+  //   })}\n\n`
+  // )
+
+  clients.push(res)
+
+  // Remove the client when the connection closes
+  req.on('close', () => {
+    clients = clients.filter((client) => client !== res)
+  })
 })
 
+app.get('/', (req, res) => {
+  console.log('req received')
+  res.send('Hello World!')
+})
+app.post('/farm-metrics', (req, res) => {
+  console.log('req received', req.body)
+  clients.forEach((client) => {
+    client.write(`data: ${JSON.stringify(req.body)}\n\n`)
+  })
+
+  res.json({ success: true, message: 'Data sent to SSE clients' })
+})
 app.use('/user', userRoutes)
 app.use('/predict', imagePredictionRoutes)
 app.use('/', weatherRoutes)
