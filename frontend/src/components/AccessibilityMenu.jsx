@@ -30,7 +30,7 @@ function AccessibilityMenu() {
   }, [])
 
   return (
-    <div className='flex gap-2 fixed bottom-5 right-5 z-[1000]'>
+    <div className='flex gap-2 fixed bottom-20 right-5 z-[1000] items-center'>
       <Sliders
         onClick={() => {
           setShow(!show)

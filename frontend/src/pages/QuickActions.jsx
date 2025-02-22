@@ -62,7 +62,8 @@ const QuickActions = ({ activeTab, setActiveTab, setCurrentAnalysisSlide }) => {
       icon: <Cloud size={40} />,
       label: 'Weather',
       color: 'bg-orange-100',
-      iconColor: 'text-orange-600'
+      iconColor: 'text-orange-600',
+      route: '/farm-management/weather'
     },
     {
       icon: <Upload size={40} />,
