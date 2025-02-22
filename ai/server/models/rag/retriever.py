@@ -1,5 +1,4 @@
 
-
 import os
 import logging
 from dotenv import load_dotenv
@@ -11,6 +10,7 @@ from langchain.prompts import PromptTemplate
 import sys
 
 from gemini_integ import GeminiIntegration
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
