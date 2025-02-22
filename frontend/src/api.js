@@ -34,3 +34,14 @@ export const getWeatherData = async (latitude, longitude) => {
   console.log(data)
   return data
 }
+export const getFarmMetrics = async (onDataRecieved) => {
+  const eventSource = new EventSource(`${VITE_BACKEND_URL}/events`)
+
+  eventSource.onmessage = (event) => {
+    const data = JSON.parse(event.data)
+    console.log('data', data)
+    onDataRecieved(data) // Update UI when new data arrives
+  }
+
+  return () => eventSource.close()
+}

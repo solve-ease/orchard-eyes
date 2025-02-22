@@ -12,24 +12,13 @@ import {
   ChevronRight
 } from 'lucide-react'
 import Card from './Card'
+import ImageGallery from './ImageGallery'
 
 const OrchardInsights = () => {
   // Mock data - in a real app, this would come from your drone analysis
   const [insights, setInsights] = useState([
     {
       id: 1,
-      category: 'irrigation',
-      title: 'Irrigation Needed',
-      description:
-        'Northeast section shows signs of water stress. Recommend increased irrigation in zones 3-5.',
-      urgency: 'high',
-      data: { soilMoisture: '22%', recommended: '35-45%' },
-      recommendation: 'Increase irrigation by 25% for the next 7 days',
-      date: '2 days ago',
-      source: 'Drone NDVI Analysis'
-    },
-    {
-      id: 2,
       category: 'pest',
       title: 'Apple Maggot Detected',
       description:
@@ -41,18 +30,7 @@ const OrchardInsights = () => {
       source: 'Drone Image Analysis'
     },
     {
-      id: 3,
-      category: 'fertilizer',
-      title: 'Potassium Deficiency',
-      description: 'Leaf analysis shows potassium deficiency in mature trees.',
-      urgency: 'medium',
-      data: { currentLevel: '1.2%', optimalLevel: '1.8-2.5%' },
-      recommendation: 'Apply potassium sulfate fertilizer at 3lbs per tree',
-      date: '1 week ago',
-      source: 'Spectral Analysis'
-    },
-    {
-      id: 4,
+      id: 2,
       category: 'weather',
       title: 'Frost Warning',
       description: 'Upcoming frost risk predicted for next week.',
@@ -64,7 +42,7 @@ const OrchardInsights = () => {
       source: 'Weather API Integration'
     },
     {
-      id: 5,
+      id: 3,
       category: 'disease',
       title: 'Apple Scab Risk',
       description:
@@ -76,7 +54,8 @@ const OrchardInsights = () => {
       source: 'Predictive Disease Model'
     }
   ])
-
+  const [showImageGallery, setShowImageGallery] = useState(false)
+  const [imageGalleryUrl, setImageGalleryUrl] = useState(null)
   // Get icon based on category
   const getIcon = (category, size = 20) => {
     switch (category) {
@@ -198,7 +177,15 @@ const OrchardInsights = () => {
                   <span className='text-sm text-gray-500'>
                     {insight.source}
                   </span>
-                  <button className='flex items-center text-sm text-blue-600 font-medium p-1'>
+                  <button
+                    className='flex items-center text-sm text-blue-600 font-medium p-1'
+                    onClick={() => {
+                      setImageGalleryUrl(
+                        'https://assets.devfolio.co/hackathons/38cc850b09fb428ca4e22d3818dc87c2/projects/2bfc5d678f9e42ee8d466fdec5b0cc7c/70682477-7030-4924-a2b5-af23c3fe8c50.jpeg'
+                      )
+                      setShowImageGallery(true)
+                    }}
+                  >
                     View Details
                     <ChevronRight size={14} className='ml-1' />
                   </button>
@@ -252,6 +239,11 @@ const OrchardInsights = () => {
           </div>
         </Card>
       </div>
+      <ImageGallery
+        display={showImageGallery ? 'flex' : 'hidden'}
+        url={imageGalleryUrl}
+        setShowImageGallery={setShowImageGallery}
+      />
     </div>
   )
 }

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import DoughnutChartWithImage from './charts/DoughnutChartWithImage'
 import Card from './Card'
-import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import {
+  AlertCircle,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react'
 import LineChart from './charts/LineChart'
 import PieChart from './charts/PieChart'
 import leafForChart from '../assets/img/leaf_for_chart.svg'
 import appleForChart from '../assets/img/apple_for_chart.png'
 import sunCloud from '../assets/img/sun_cloud.svg'
 import PrecisionMap from './charts/PrecisionMap'
+import { getFarmMetrics } from '../api'
 
 const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
   const [farmMetrics, setFarmMetrics] = useState(null)
@@ -31,7 +37,7 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
     },
     pestSeverity: 35, // on a scale of 1-100
     predictedDiseases: {
-      disease: ['Apple scab', 'Fire blight', 'No Disease'],
+      disease: ['Apple scab', 'Fire blight', 'Powdery Miildew'],
       chance: [10, 43, 47] // percentages
     },
     appleCount: 1200, // total number of apples
@@ -90,13 +96,19 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
                 img={leafForChart}
                 label1='Healthy leaves'
                 label2='Diseased Leaves'
-                data1={data.health.leaves.healthy}
-                data2={data.health.leaves.unhealthy}
+                data1={data.Tree_Health_Report.Organ_Counts.Leaves.healthy}
+                data2={data.Tree_Health_Report.Organ_Counts.Leaves.diseased}
               />
               <div className='text-center'>
                 <span className='flex gap-1 items-end'>
                   <p className='font-semibold text-2xl text-emerald-700'>
-                    {data.health.leaves.healthy}%
+                    {Math.round(
+                      (100 *
+                        data.Tree_Health_Report.Organ_Counts.Leaves.healthy) /
+                        (data.Tree_Health_Report.Organ_Counts.Leaves.healthy +
+                          data.Tree_Health_Report.Organ_Counts.Leaves.diseased)
+                    )}
+                    %
                   </p>
                   <p className='font-semibold text-lg text-[#09846180] '>
                     HEALTHY
@@ -104,7 +116,13 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
                 </span>
                 <span className='flex gap-1 items-end'>
                   <p className='font-semibold text-2xl text-red-700'>
-                    {data.health.leaves.unhealthy}%
+                    {Math.round(
+                      (100 *
+                        data.Tree_Health_Report.Organ_Counts.Leaves.diseased) /
+                        (data.Tree_Health_Report.Organ_Counts.Leaves.healthy +
+                          data.Tree_Health_Report.Organ_Counts.Leaves.diseased)
+                    )}
+                    %
                   </p>
                   <p className='font-semibold text-lg text-[#d61a1a80] '>
                     DISEASED
@@ -117,13 +135,19 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
                 img={appleForChart}
                 label1='Healthy Apples'
                 label2='Diseased Apples'
-                data1={data.health.fruit.healthy}
-                data2={data.health.fruit.unhealthy}
+                data1={data.Tree_Health_Report.Organ_Counts.Fruits.healthy}
+                data2={data.Tree_Health_Report.Organ_Counts.Fruits.diseased}
               />
               <div className='text-center'>
                 <span className='flex gap-1 items-end'>
                   <p className='font-semibold text-2xl text-emerald-700'>
-                    {data.health.fruit.healthy}%
+                    {Math.round(
+                      (100 *
+                        data.Tree_Health_Report.Organ_Counts.Fruits.healthy) /
+                        (data.Tree_Health_Report.Organ_Counts.Fruits.healthy +
+                          data.Tree_Health_Report.Organ_Counts.Fruits.diseased)
+                    )}
+                    %
                   </p>
                   <p className='font-semibold text-lg text-[#09846180] '>
                     HEALTHY
@@ -131,7 +155,13 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
                 </span>
                 <span className='flex gap-1 items-end'>
                   <p className='font-semibold text-2xl text-red-700'>
-                    {data.health.fruit.unhealthy}%
+                    {Math.round(
+                      (100 *
+                        data.Tree_Health_Report.Organ_Counts.Fruits.diseased) /
+                        (data.Tree_Health_Report.Organ_Counts.Fruits.healthy +
+                          data.Tree_Health_Report.Organ_Counts.Fruits.diseased)
+                    )}
+                    %
                   </p>
                   <p className='font-semibold text-lg text-[#d61a1a80] '>
                     DISEASED
@@ -148,8 +178,12 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
       component: ({ data }) => (
         <div className='flex flex-col gap-20 w-full items-center'>
           <PieChart
-            dataSet={data.predictedDiseases.chance}
-            labels={data.predictedDiseases.disease}
+            dataSet={Object.values(
+              data.Tree_Health_Report.Detected_Diseases
+            ).map((disease) =>
+              Object.values(disease).reduce((sum, value) => sum + value, 0)
+            )}
+            labels={Object.keys(data.Tree_Health_Report.Detected_Diseases)}
           />
           <div className='w-[80vw] flex flex-col gap-6'>
             <div className='flex justify-between bg-gradient-to-br from-red-400 to-red-500 border border-red-500 p-4 rounded-lg'>
@@ -167,45 +201,47 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
           </div>
         </div>
       )
-    },
-    {
-      title: 'Production',
-      component: ({ data }) => (
-        <div className='flex flex-col gap-6 w-full'>
-          <LineChart
-            labels={[0, 15, 30, 45, 60, 75]}
-            data={farmMetrics.estimatedAppleYield}
-            title='Estimated Apple Count (tonnes)'
-          />
-          <div className='flex flex-col items-start gap-3 px-2'>
-            <h2 className='text-xl font-bold text-[#8f8d8d]'>
-              Current Production
-            </h2>
-            <p className='text-4xl font-bold text-green-700'>1100 Tonnes</p>
-          </div>
-          <div className='flex flex-col items-start gap-3 px-2'>
-            <h2 className='text-xl font-bold text-[#8f8d8d]'>
-              Expected Annual Production
-            </h2>
-            <p className='text-4xl font-bold text-green-700'>1100 Tonnes</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: 'Precision Map',
-      component: ({ data }) => (
-        <div className='w-full'>
-          <PrecisionMap data={data.precisionMapData} title='2D Precision Map' />
-        </div>
-      )
     }
+    // {
+    //   title: 'Production',
+    //   component: ({ data }) => (
+    //     <div className='flex flex-col gap-6 w-full'>
+    //       <LineChart
+    //         labels={[0, 15, 30, 45, 60, 75]}
+    //         data={farmMetrics.estimatedAppleYield}
+    //         title='Estimated Apple Count (tonnes)'
+    //       />
+    //       <div className='flex flex-col items-start gap-3 px-2'>
+    //         <h2 className='text-xl font-bold text-[#8f8d8d]'>
+    //           Current Production
+    //         </h2>
+    //         <p className='text-4xl font-bold text-green-700'>1100 Tonnes</p>
+    //       </div>
+    //       <div className='flex flex-col items-start gap-3 px-2'>
+    //         <h2 className='text-xl font-bold text-[#8f8d8d]'>
+    //           Expected Annual Production
+    //         </h2>
+    //         <p className='text-4xl font-bold text-green-700'>1100 Tonnes</p>
+    //       </div>
+    //     </div>
+    //   )
+    // },
+    // {
+    //   title: 'Precision Map',
+    //   component: ({ data }) => (
+    //     <div className='w-full'>
+    //       <PrecisionMap data={data.precisionMapData} title='2D Precision Map' />
+    //     </div>
+    //   )
+    // }
   ]
 
   useEffect(() => {
-    setFarmMetrics(data)
+    getFarmData()
   }, [])
-
+  useEffect(() => {
+    console.log('farmMetrics', farmMetrics)
+  }, [farmMetrics])
   const handleSlideChange = (direction) => {
     setSlideAnimation(direction === 'next' ? 'slide-left' : 'slide-right')
 
@@ -221,6 +257,15 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
     }, 300)
   }
 
+  const getFarmData = async () => {
+    try {
+      const response = getFarmMetrics(setFarmMetrics)
+      const data = await response.json()
+      console.log('metrics data', data)
+    } catch (error) {
+      console.error('Error fetching farm metrics:', error)
+    }
+  }
   return (
     <div className='flex bg-white sm:pl-48 flex-col gap-6 bg-[#dedede] min-h-screen items-center'>
       {farmMetrics ? (
@@ -233,7 +278,7 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
               <ChevronLeft className='w-6 h-6 text-gray-600' />
             </button>
             <h2 className='font-semibold text-xl text-gray-600'>
-              {slides[currentAnalysisSlide].title}
+              {slides[currentAnalysisSlide].title || 'Analysis'}
             </h2>
             <button
               onClick={() => handleSlideChange('next')}
@@ -248,8 +293,10 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
           </div>
         </div>
       ) : (
-        <div className='flex items-center justify-center h-64'>
-          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900'></div>
+        <div className='flex flex-col items-center justify-center gap-4 h-[70vh]'>
+          {/* <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900'></div> */}
+          <AlertCircle size={80} color='#878282' className='' />
+          <p className='text-[#878282] text-bold text-xl'>No Farm Data Found</p>
         </div>
       )}
     </div>
