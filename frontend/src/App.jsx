@@ -150,11 +150,13 @@ function AppContent() {
           <Route
             path='farm-management'
             element={
-              <OrchardManagement
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                handleWeatherData={handleWeatherData}
-              />
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <OrchardManagement
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  handleWeatherData={handleWeatherData}
+                />
+              </ProtectedRoute>
             }
           >
             {/* <Route
