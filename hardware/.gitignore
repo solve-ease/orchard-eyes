@@ -4,3 +4,8 @@ tree-detection/train
 **/*.pt
 **/__pycache__
 **/*.mp4
+apple_disease_classification/datasets/images
+apple_disease_classification/datasets/labels
+apple_disease_classification/models
+**/*.jpg
+hardware/apple_leaf_disease_cls/models/best.pth
