@@ -10,7 +10,7 @@ dotenv.config()
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use(express.json())
+
 app.use(
   cors({
     origin: [
@@ -20,9 +20,12 @@ app.use(
       'https://iiituna-orchardeyes.vercel.app',
       'http://172.16.4.155:5173',
       'https://agri-aero.vercel.app'
-    ]
+    ],
+    credentials: true // Allows cookies/auth headers
   })
 )
+
+app.use(express.json())
 
 // sse setup
 let clients = []
