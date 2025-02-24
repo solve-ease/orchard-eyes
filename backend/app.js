@@ -18,7 +18,8 @@ app.use(
       'http://192.168.110.180:5173',
       'http://192.168.3.117:5173',
       'https://iiituna-orchardeyes.vercel.app',
-      'http://172.16.4.155:5173'
+      'http://172.16.4.155:5173',
+      'https://agri-aero.vercel.app'
     ]
   })
 )
