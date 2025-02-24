@@ -19,7 +19,8 @@ app.use(
       'http://192.168.3.117:5173',
       'https://iiituna-orchardeyes.vercel.app',
       'http://172.16.4.155:5173',
-      'https://agri-aero.vercel.app'
+      'https://agri-aero.vercel.app',
+      'https://orchard-eyes-new.vercel.app'
     ],
     credentials: true // Allows cookies/auth headers
   })
