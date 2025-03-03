@@ -1,4 +1,4 @@
-# 🌳 AgriAero | Smart Apple Orchard Management System
+# 🌳 OrchardEyes | Smart Apple Orchard Management System
 
 ## Overview
 A comprehensive solution for automated orchard management utilizing AI-powered image analysis, blockchain technology, and autonomous UAV drones.
