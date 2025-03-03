@@ -1,0 +1,32 @@
+{
+    "Tree_Health_Report": {
+        "Tree_ID": 12345,
+        "Overall_Health_Score": "75.00%",
+        "Organ_Counts": {
+            "Fruits": {
+                "healthy": 123,
+                "diseased": 12
+            },
+            "Leaves": {
+                "healthy": 118,
+                "diseased": 200
+            },
+            "Flowers": {
+                "healthy": 8,
+                "diseased": 2
+            }
+        },
+        "Detected_Diseases": {
+            "Apple_Scab": {
+                "fruits": 3,
+                "leaves": 2
+            },
+            "Powdery_Mildew": {
+                "leaves": 56
+            },
+            "Fire_Blight": {
+                "flowers": 2
+            }
+        }
+    }
+}
