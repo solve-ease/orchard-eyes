@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import 'react-toastify/dist/ReactToastify.css'
 import { useAuth0 } from '@auth0/auth0-react'
+import { useNavigate } from 'react-router-dom'
 
 const ProfilePage = ({ userData }) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -25,6 +26,7 @@ const ProfilePage = ({ userData }) => {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
   const { logout } = useAuth0()
+  const navigate = useNavigate()
   // Profile State
   const [profile, setProfile] = useState({
     fullName: 'Charlotte King',
@@ -142,7 +144,7 @@ const ProfilePage = ({ userData }) => {
       {/* Header */}
       <div className='flex items-center justify-between pt-2 border-b'>
         <button className='p-2'>
-          <ArrowLeft size={20} />
+          <ArrowLeft size={20} onClick={() => navigate(-1)} />
         </button>
         <h1 className='font-semibold text-lg'>My Profile</h1>
         <button className='p-2'>

@@ -229,7 +229,7 @@ const FarmDashboard = ({ weatherData }) => {
         </Card>
 
         {/* Weather Card */}
-        {weatherData ? (
+        {weatherData && weatherData.current ? (
           <Card
             bgColor={'bg-[#cee6f4]'}
             otherStyles={'border border-[#71c9bd]'}

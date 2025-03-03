@@ -10,9 +10,8 @@ datasource db {
 
 model Analysis {
   id                 Int      @id @default(autoincrement())
-  yield              Int
-  disease            Json
-  pests              Json
+  detected_diseases  Json
+  organ_counts       Json
   waterStress        Float
   chlorophyllContent Float
   farmId             Int
