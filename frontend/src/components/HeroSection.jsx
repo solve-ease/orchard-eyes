@@ -30,7 +30,8 @@ const HeroSection = () => {
             muted
             className='absolute top-0 left-0 w-full h-full object-cover rounded-br-[2rem] rounded-bl-[2rem]'
           >
-            <source src={HomeVideo} type='video/mp4' />
+{/*             <source src={HomeVideo} type='video/mp4' /> */}
+            <source src="https://umrsmxgrvjsbydcupwps.supabase.co/storage/v1/object/public/seed-society-images//LandingPage.mp4" type='video/mp4' />
           </video>
           <div className='absolute top-0 left-0 w-full h-full via-transparent to-transparent'></div>
           <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-[-2.5rem] h-[5rem] w-[5rem] hover:scale-[1.2] bg-white rounded-full border-[.3rem] border-white animate-hover'>
