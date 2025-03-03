@@ -3,3 +3,4 @@ backend/.env
 backend/node_modules
 ai/weights/
 pear/node_modules/
+hardware/myenv
