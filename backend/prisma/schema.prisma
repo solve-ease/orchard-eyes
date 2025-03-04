@@ -12,8 +12,8 @@ model Analysis {
   id                 Int      @id @default(autoincrement())
   detected_diseases  Json
   organ_counts       Json
-  waterStress        Float
-  chlorophyllContent Float
+  waterStress        Float?  
+  chlorophyllContent Float?
   farmId             Int
   dateTime           DateTime @default(now())
   Farm               Farm     @relation(fields: [farmId], references: [id])

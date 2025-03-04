@@ -67,9 +67,9 @@ app.post('/farm-metrics', async (req, res) => {
     }
   })
   //not using sse code now
-  clients.forEach((client) => {
-    client.write(`data: ${JSON.stringify(req.body)}\n\n`)
-  })
+  // clients.forEach((client) => {
+  //   client.write(`data: ${JSON.stringify(req.body)}\n\n`)
+  // })
 
   res.json({ success: true, message: 'Data sent to SSE clients' })
 })
@@ -79,3 +79,30 @@ app.use('/', weatherRoutes)
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
+
+// {
+//   "Tree_Health_Report":{
+// "Detected_Diseases":{
+//   "Apple-Scab":{
+//     "fruits":3,
+//     "leaves":2
+//   },
+//   "Fire-Blight":{
+//     "fruits":2
+//   },
+//   "Powdery-Mildew":{
+//     "leaves":4
+//   }
+// },
+// "Organ_Counts":{
+//   "Fruits":{
+//   "diseased":10,
+//   "healthy":20
+//   },
+//   "Leaves":{
+//   "diseased":70,
+//   "healthy":50
+//   }
+// }
+//   }
+// }
