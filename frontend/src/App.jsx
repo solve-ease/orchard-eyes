@@ -21,17 +21,20 @@ import ImageUpload from './components/ImageUpload'
 import About from './pages/AboutPage'
 import ExpandedWeatherCard from './components/ExpandedWeatherCard'
 import MapComponent from './components/MapComponent'
-import { FontSizeProvider } from './components/FontSizeProvider'
+import { FontSizeProvider } from './context/FontSizeProvider'
 import MobileOnlyModal from './components/MobileOnlyModal'
+import { useUser } from './context/userContext'
+import { useAlert } from './context/AlertContext'
+import AlertContainer from './components/alert/AlertContainer'
 
 function App() {
   return <AppContent />
 }
 function AppContent() {
   const location = useLocation()
+  const { userData, setUserData } = useUser()
   const isOrchardRoute = location.pathname === '/orchard'
   const [activeTab, setActiveTab] = useState(null)
-  const [userData, setUserData] = useState(null)
   const [currentAnalysisSlide, setCurrentAnalysisSlide] = useState(0)
   const {
     isAuthenticated,
@@ -44,6 +47,7 @@ function AppContent() {
   const [weatherData, setWeatherData] = useState(null)
   const [userLocation, setUserLocation] = useState(null)
   const [isLoadingWeatherData, setIsLoadingWeatherData] = useState(true)
+  const { success } = useAlert()
 
   useEffect(() => {
     const wrapper = document.getElementById('gt_float_wrapper')
@@ -68,6 +72,7 @@ function AppContent() {
     const updateUser = async () => {
       try {
         if (!isLoading && isAuthenticated) {
+          success('Logged in successfully')
           await userInit(user.email)
           navigate('/farm-management/dashboard') // Redirect logged-in users
         }
@@ -89,6 +94,7 @@ function AppContent() {
 
   const userInit = async (email) => {
     try {
+      //getting user data ,farm data and last analysis
       const userData = await getUser(email)
       if (userData) setUserData(userData)
       else {
@@ -141,6 +147,7 @@ function AppContent() {
   return (
     <FontSizeProvider>
       <MobileOnlyModal />
+      <AlertContainer />
       <Navbar
         background={isOrchardRoute ? '#f4f4f4' : 'transparent'}
         isAuthenticated={isAuthenticated}
@@ -216,29 +223,30 @@ function AppContent() {
               }
             />
           </Route>
-          <Route
+          <Route path='/connect' element={<ConnectDrone />} />
+          {/* <Route
             path='/connect'
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <ConnectDrone />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route path='/chatbot' element={<Chatbot />} />
           <Route path='/models-report' element={<ModelsReport />} />
           <Route path='/orchard' element={<OrchardPage />} />
-          <Route
+          {/* <Route
             path='/profile'
             element={<ProfilePage userData={userData} />}
-          />
-          {/* <Route
+          /> */}
+          <Route
             path='/profile'
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <ProfilePage userData={userData} />
               </ProtectedRoute>
             }
-          /> */}
+          />
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<About />} />
         </Routes>

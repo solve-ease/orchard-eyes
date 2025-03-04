@@ -1,6 +1,6 @@
 import { Sliders } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { useFontSize } from './FontSizeProvider'
+import { useFontSize } from '../context/FontSizeProvider'
 
 function AccessibilityMenu() {
   const [show, setShow] = useState(false)

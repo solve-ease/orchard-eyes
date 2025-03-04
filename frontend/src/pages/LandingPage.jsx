@@ -1,4 +1,3 @@
-import LandingPageVideo from '../assets/LandingPage.mp4'
 import styled, { createGlobalStyle } from 'styled-components'
 import PreferedOrchs from '../components/PreferredOrchs'
 import FooterSection from '../components/FooterSection'
@@ -85,7 +84,9 @@ const LandingPage = () => {
                 autoPlay
                 loop
                 muted
-                src={LandingPageVideo}
+                src={
+                  'https://umrsmxgrvjsbydcupwps.supabase.co/storage/v1/object/public/seed-society-images//LandingPage.mp4'
+                }
               />
             </div>
 

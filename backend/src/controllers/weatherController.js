@@ -1,13 +1,14 @@
 const weatherApiKey = process.env.WEATHER_API_KEY
-
 const fetchWeatherData = async (lat, lon) => {
   if (!weatherApiKey) {
+    console.log('No weather API key found')
     throw new Error('Something went wrong')
   }
   const url = `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${lat},${lon}&days=2`
   console.log('url', url)
   const res = await fetch(url)
   const data = await res.json()
+  console.log('weather', data)
   return data
 }
 
