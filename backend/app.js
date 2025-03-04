@@ -4,6 +4,7 @@ import cors from 'cors'
 import userRoutes from './src/routes/user.js'
 import imagePredictionRoutes from './src/routes/imagePrediction.js'
 import weatherRoutes from './src/routes/weather.js'
+import analysisRoutes from './src/routes/analysis.js'
 import { prisma } from './src/utils/prismaClient.js'
 
 const app = express()
@@ -75,6 +76,7 @@ app.post('/farm-metrics', async (req, res) => {
 })
 app.use('/user', userRoutes)
 app.use('/predict', imagePredictionRoutes)
+app.use('/analysis', analysisRoutes)
 app.use('/', weatherRoutes)
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)

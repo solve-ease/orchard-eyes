@@ -23,7 +23,7 @@ import ExpandedWeatherCard from './components/ExpandedWeatherCard'
 import MapComponent from './components/MapComponent'
 import { FontSizeProvider } from './context/FontSizeProvider'
 import MobileOnlyModal from './components/MobileOnlyModal'
-import { UserProvider, useUser } from './context/userContext'
+import { useUser } from './context/userContext'
 import { useAlert } from './context/AlertContext'
 import AlertContainer from './components/alert/AlertContainer'
 

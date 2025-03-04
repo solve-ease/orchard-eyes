@@ -14,15 +14,16 @@ import leafForChart from '../assets/img/leaf_for_chart.svg'
 import appleForChart from '../assets/img/apple_for_chart.png'
 import sunCloud from '../assets/img/sun_cloud.svg'
 import PrecisionMap from './charts/PrecisionMap'
-import { getFarmMetrics } from '../api'
+import { getFarmMetrics, getLastAnalysis } from '../api'
 import { useUser } from '../context/userContext'
+import { useAlert } from '../context/AlertContext'
 
 const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
   const { userData, setUserData } = useUser()
+  const { success, error } = useAlert()
   let farmMetrics = null
-  if (!userData) farmMetrics = null
-  else {
-    // farmMetrics = userData.Farm[0].Analysis[0]
+  if (userData && userData.Farm && userData.Farm[0].Analysis) {
+    farmMetrics = userData.Farm[0].Analysis[0]
     console.log(farmMetrics, 'farm metrics')
   }
   const [slideAnimation, setSlideAnimation] = useState('')
@@ -171,13 +172,9 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
     //   )
     // }
   ]
-
-  // useEffect(() => {
-  //   getFarmData()
-  // }, [])
   useEffect(() => {
-    console.log('farmMetrics', farmMetrics)
-  }, [farmMetrics])
+    console.log('userData', userData)
+  }, [userData])
   const handleSlideChange = (direction) => {
     setSlideAnimation(direction === 'next' ? 'slide-left' : 'slide-right')
 
@@ -200,6 +197,35 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
       console.log('metrics data', data)
     } catch (error) {
       console.error('Error fetching farm metrics:', error)
+    }
+  }
+
+  const fetchLastAnalysis = async () => {
+    if (userData && userData.Farm) {
+      const farmId = userData.Farm[0].id
+      try {
+        const data = await getLastAnalysis(farmId)
+        if (data) {
+          console.log('Last Analysis:', data)
+          success('Last Analysis fetched successfully')
+          setUserData((prev) => ({
+            ...prev,
+            Farm: [
+              {
+                ...prev.Farm[0],
+                Analysis: [data]
+              }
+            ]
+          }))
+        } else {
+          error('No Analysis found')
+        }
+      } catch (e) {
+        error(e.message)
+        console.error('Error fetching farm metrics:', e)
+      }
+    } else {
+      error('User has no Farm saved')
     }
   }
   return (
@@ -233,7 +259,10 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
           {/* <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900'></div> */}
           <AlertCircle size={80} color='#878282' className='' />
           <p className='text-[#878282] text-bold text-xl'>No Farm Data Found</p>
-          <span className='p-3 bg-[#4c4c4c] rounded-lg'>
+          <span
+            className='p-3 bg-[#4c4c4c] rounded-lg'
+            onClick={fetchLastAnalysis}
+          >
             <RefreshCcw color='white' />
           </span>
         </div>

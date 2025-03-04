@@ -34,6 +34,7 @@ export const getWeatherData = async (latitude, longitude) => {
   console.log(data)
   return data
 }
+//currently sse not in use
 export const getFarmMetrics = async (onDataRecieved) => {
   const eventSource = new EventSource(`${VITE_BACKEND_URL}/events`)
 
@@ -44,4 +45,23 @@ export const getFarmMetrics = async (onDataRecieved) => {
   }
 
   return () => eventSource.close()
+}
+
+// get last analysis of a farm
+export const getLastAnalysis = async (farmId) => {
+  try {
+    const response = await fetch(
+      `${VITE_BACKEND_URL}/analysis/get-last-analysis?farmId=${farmId}`
+    )
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.error || 'Failed to fetch last analysis')
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error('Error fetching last analysis:', error)
+    throw error
+  }
 }

@@ -2,11 +2,11 @@ import express from 'express'
 import {
   getAllAnalysis,
   getLastAnalysis
-} from '../controllers/analysisController'
-import { checkAuth } from '../middlewares/checkAuth'
+} from '../controllers/analysisController.js'
+import { checkAuth } from '../middlewares/checkAuth.js'
 
 const router = express.Router()
 
-router.get('/get-all-analysis', checkAuth, getAllAnalysis)
-router.get('/get-last-analysis', checkAuth, getLastAnalysis)
+router.get('/get-all-analysis', getAllAnalysis)
+router.get('/get-last-analysis', getLastAnalysis)
 export default router

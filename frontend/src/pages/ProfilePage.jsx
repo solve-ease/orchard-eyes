@@ -19,12 +19,14 @@ import {
 import 'react-toastify/dist/ReactToastify.css'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from '../context/userContext'
 
-const ProfilePage = ({ userData }) => {
+const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
+  const { userData, setUserData } = useUser()
   const { logout } = useAuth0()
   const navigate = useNavigate()
   // Profile State
@@ -165,8 +167,8 @@ const ProfilePage = ({ userData }) => {
           </button>
         </div>
         <div className='flex flex-col items-center'>
-          <h2 className='font-bold text-xl'>{profile.fullName}</h2>
-          <p className='text-gray-500 text-sm'>{profile.username}</p>
+          <h2 className='font-bold text-xl'>{userData.name}</h2>
+          <p className='text-gray-500 text-sm'>{userData.name}</p>
           {!isEditing && (
             <button
               onClick={() => setIsEditing(true)}
