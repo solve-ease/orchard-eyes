@@ -45,7 +45,7 @@ class PineconeRetriever:
         self.prompt_template = PromptTemplate(
             input_variables=["context", "question"],
             template="""
-            You are an AI assistant for AgriAero, a precision farming solution that uses drones, AI, and blockchain to help orchard farmers monitor crop health, optimize resources, and improve traceability. Your role is to answer user queries strictly based on the context provided. If the query is unrelated to orchard farming, drone technology, crop health monitoring, or resource optimization, politely refuse to answer.
+            You are an AI assistant for OrchardEyes, a precision farming solution that uses drones, AI, and blockchain to help orchard farmers monitor crop health, optimize resources, and improve traceability. Your role is to answer user queries strictly based on the context provided. If the query is unrelated to orchard farming, drone technology, crop health monitoring, or resource optimization, politely refuse to answer.
 
             **Context:**
             {context}
@@ -70,7 +70,8 @@ class PineconeRetriever:
         """Retrieve or create Pinecone index"""
         try:
             if self.index_name not in self.pc.list_indexes().names():
-                self._create_index()
+                # self._create_index()
+                raise ValueError(f"Index '{self.index_name}' not found")
             return self.pc.Index(self.index_name)
         except Exception as e:
             logger.error(f"Index retrieval failed: {str(e)}")
@@ -113,14 +114,11 @@ class PineconeRetriever:
         try:
             retriever = self.get_retriever()
             docs = retriever.get_relevant_documents(user_input)
+            print(f"Docs fetched: {docs}")
             # context = "\n".join([doc.page_content for doc in docs])
             context = """**Examples of Relevant Topics:**
-    - Drone-based crop health monitoring
-    - Disease and pest detection in orchards
-    - Optimizing irrigation and fertilization
-    - Using blockchain for farm-to-market traceability
-    - Reducing labor costs with drone technology
-    - Calculating NDVI for crop health analysis """
+    - apple orchard and its cultivation tips
+    """
             
             if not context:
                 return "I'm sorry, but I can only answer questions related to Orchard Management"
