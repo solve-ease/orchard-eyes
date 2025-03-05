@@ -4,6 +4,7 @@ import torch
 import torchvision.transforms as transforms
 from PIL import Image
 
+
 # Define the same model architecture
 class SimpleResidualBlock(torch.nn.Module):
     def __init__(self):
@@ -162,7 +163,7 @@ def process_images(input_folder, model, old_json_file, new_json_file):
 
     print(f"Processed {len(os.listdir(input_folder))} images. New data saved to {new_json_file}.")
 
-if __name__ == "__main__":
+def detect_apple_leaf_disease():
     # Load the trained model
     model_path = "models/best.pth"
     model = load_model(model_path)

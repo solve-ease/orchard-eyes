@@ -4,15 +4,15 @@ import os
 from yolo_detector import YoloDetector
 from tracker import Tracker
 
-MODEL_PATH = "models/best.pt"
-VIDEO_PATH = "assets/latest.mp4"
-SAVE_FOLDER = "saves"
 
-# Create the "saves" folder if it doesn't exist
-if not os.path.exists(SAVE_FOLDER):
-    os.makedirs(SAVE_FOLDER)
+def tree_detection():
+    MODEL_PATH = "models/best.pt"
+    VIDEO_PATH = "assets/latest.mp4"
+    SAVE_FOLDER = "saves"
 
-def main():
+    # Create the "saves" folder if it doesn't exist
+    if not os.path.exists(SAVE_FOLDER):
+        os.makedirs(SAVE_FOLDER)
     detector = YoloDetector(model_path=MODEL_PATH, confidence=0.2)
     tracker = Tracker()
 
@@ -63,15 +63,11 @@ def main():
         fps = 1 / (end_time - start_time)
         print(f"Current fps: {fps}")
 
-        cv2.imshow("Frame", frame)
+        # cv2.imshow("Frame", frame)
 
-        key = cv2.waitKey(1) & 0xFF
-        if key == ord("q") or key == 27:
-            break
+        # key = cv2.waitKey(1) & 0xFF
+        # if key == ord("q") or key == 27:
+        #     break
 
-    cap.release()
-    cv2.destroyAllWindows()
-
-
-if __name__ == "__main__":
-    main()
+    # cap.release()
+    # cv2.destroyAllWindows()

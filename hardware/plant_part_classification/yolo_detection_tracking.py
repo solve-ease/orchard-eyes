@@ -3,22 +3,23 @@ import time
 import os
 from yolo_detector import YoloDetector
 from tracker import Tracker
+    
 
-MODEL_PATH = "models/tree_organ_cls_2.5k_best.pt"  # YOLO model for detecting leaves, fruits, and flowers
-VIDEO_PATH = "assets/latest2.mp4"
-SAVE_FOLDER = "saves"
+def plant_part_cls():
 
-# Create the "saves" folder and subfolders if they don't exist
-if not os.path.exists(SAVE_FOLDER):
-    os.makedirs(SAVE_FOLDER)
+    MODEL_PATH = "models/tree_organ_cls_2.5k_best.pt"  # YOLO model for detecting leaves, fruits, and flowers
+    VIDEO_PATH = "assets/latest2.mp4"
+    SAVE_FOLDER = "saves"
 
-# Create subfolders for leaves, fruits, and flowers
-for folder in ["leaves", "fruits", "flowers","branches"]:
-    folder_path = os.path.join(SAVE_FOLDER, folder)
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
+    # Create the "saves" folder and subfolders if they don't exist
+    if not os.path.exists(SAVE_FOLDER):
+        os.makedirs(SAVE_FOLDER)
 
-def main():
+    # Create subfolders for leaves, fruits, and flowers
+    for folder in ["leaves", "fruits", "flowers","branches"]:
+        folder_path = os.path.join(SAVE_FOLDER, folder)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
     detector = YoloDetector(model_path=MODEL_PATH, confidence=0.2)
     tracker = Tracker()
 
@@ -91,7 +92,3 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
-
-
-if __name__ == "__main__":
-    main()
