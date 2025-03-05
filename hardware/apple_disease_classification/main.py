@@ -5,9 +5,9 @@ from ultralytics import YOLO
 
 def detect_apple_disease():
     # Paths
-    MODEL_PATH = "models/best.pt"  # Path to the pre-trained YOLO model
-    INPUT_DIR = "../plant_part_classification/saves/fruits"  # Directory containing input images
-    OUTPUT_JSON = "../tree_health_report.json"  # Path to save the JSON file
+    MODEL_PATH = "apple_disease_classification/models/best.pt"  # Path to the pre-trained YOLO model
+    INPUT_DIR = "plant_part_classification/saves/fruits"  # Directory containing input images
+    OUTPUT_JSON = "tree_health_report.json"  # Path to save the JSON file
 
     # TODO:make it such that it reads from the existing file in the begining instead of assuming values 
 

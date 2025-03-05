@@ -1,14 +1,14 @@
 import cv2
 import time
 import os
-from yolo_detector import YoloDetector
-from tracker import Tracker
+from tree_detection.yolo_detector import YoloDetector
+from tree_detection.tracker import Tracker
 
 
 def tree_detection():
-    MODEL_PATH = "models/best.pt"
-    VIDEO_PATH = "assets/latest.mp4"
-    SAVE_FOLDER = "saves"
+    MODEL_PATH = "tree_detection/models/best.pt"
+    VIDEO_PATH = "tree_detection/assets/latest.mp4"
+    SAVE_FOLDER = "tree_detection/saves"
 
     # Create the "saves" folder if it doesn't exist
     if not os.path.exists(SAVE_FOLDER):

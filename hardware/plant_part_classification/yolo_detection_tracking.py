@@ -1,15 +1,15 @@
 import cv2
 import time
 import os
-from yolo_detector import YoloDetector
-from tracker import Tracker
+from plant_part_classification.yolo_detector import YoloDetector
+from plant_part_classification.tracker import Tracker
     
 
 def plant_part_cls():
 
-    MODEL_PATH = "models/tree_organ_cls_2.5k_best.pt"  # YOLO model for detecting leaves, fruits, and flowers
-    VIDEO_PATH = "assets/latest2.mp4"
-    SAVE_FOLDER = "saves"
+    MODEL_PATH = "hardware/models/tree_organ_cls_2.5k_best.pt"  # YOLO model for detecting leaves, fruits, and flowers
+    VIDEO_PATH = "hardware/assets/latest2.mp4"
+    SAVE_FOLDER = "hardware/saves"
 
     # Create the "saves" folder and subfolders if they don't exist
     if not os.path.exists(SAVE_FOLDER):

@@ -169,9 +169,9 @@ def detect_apple_leaf_disease():
     model = load_model(model_path)
     
     # Define input folder and JSON files
-    input_folder = "../plant_part_classification/saves/leaves"  # Folder containing images to process
-    old_json_file = "../tree_health_report.json"  # Old JSON file to read from
-    new_json_file = "../new_tree_health_report.json"  # New JSON file to save to
+    input_folder = "plant_part_classification/saves/leaves"  # Folder containing images to process
+    old_json_file = "tree_health_report.json"  # Old JSON file to read from
+    new_json_file = "new_tree_health_report.json"  # New JSON file to save to
     
     # Process images and update JSON file
     process_images(input_folder, model, old_json_file, new_json_file)
