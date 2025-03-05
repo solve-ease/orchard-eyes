@@ -120,8 +120,8 @@ class PineconeRetriever:
     - apple orchard and its cultivation tips
     """
             
-            if not context:
-                return "I'm sorry, but I can only answer questions related to Orchard Management"
+            # if not context:
+            #     return "I'm sorry, but I can only answer questions related to Orchard Management"
             
             prompt = self.prompt_template.format(context=context, question=user_input)
             response = self.llm.generate_response(query=prompt)
