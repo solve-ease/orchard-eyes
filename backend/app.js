@@ -1,15 +1,14 @@
-import dotenv from 'dotenv'
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import userRoutes from './src/routes/user.js'
 import imagePredictionRoutes from './src/routes/imagePrediction.js'
 import weatherRoutes from './src/routes/weather.js'
-
-dotenv.config()
+import analysisRoutes from './src/routes/analysis.js'
+import { prisma } from './src/utils/prismaClient.js'
 
 const app = express()
 const port = process.env.PORT || 3000
-
 
 app.use(
   cors({
@@ -56,17 +55,56 @@ app.get('/', (req, res) => {
   console.log('req received')
   res.send('Hello World!')
 })
-app.post('/farm-metrics', (req, res) => {
+app.post('/farm-metrics', async (req, res) => {
+  //getting farm metrics from drone/ml server
   console.log('req received', req.body)
-  clients.forEach((client) => {
-    client.write(`data: ${JSON.stringify(req.body)}\n\n`)
+  const data = req.body.Tree_Health_Report
+  //uploading analysis data to db
+  await prisma.analysis.create({
+    data: {
+      detected_diseases: data.Detected_Diseases,
+      organ_counts: data.Organ_Counts,
+      farmId: data.farmId
+    }
   })
+  //not using sse code now
+  // clients.forEach((client) => {
+  //   client.write(`data: ${JSON.stringify(req.body)}\n\n`)
+  // })
 
   res.json({ success: true, message: 'Data sent to SSE clients' })
 })
 app.use('/user', userRoutes)
 app.use('/predict', imagePredictionRoutes)
+app.use('/analysis', analysisRoutes)
 app.use('/', weatherRoutes)
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
+
+// {
+//   "Tree_Health_Report":{
+// "Detected_Diseases":{
+//   "Apple-Scab":{
+//     "fruits":3,
+//     "leaves":2
+//   },
+//   "Fire-Blight":{
+//     "fruits":2
+//   },
+//   "Powdery-Mildew":{
+//     "leaves":4
+//   }
+// },
+// "Organ_Counts":{
+//   "Fruits":{
+//   "diseased":10,
+//   "healthy":20
+//   },
+//   "Leaves":{
+//   "diseased":70,
+//   "healthy":50
+//   }
+// }
+//   }
+// }

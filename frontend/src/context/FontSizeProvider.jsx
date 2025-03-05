@@ -11,7 +11,6 @@ export function FontSizeProvider({ children }) {
     document.documentElement.style.setProperty('--base-font-size', fontSize)
     localStorage.setItem('fontSize', fontSize)
   }, [fontSize])
-
   const increaseFont = () => {
     setFontSize((prev) => `${Math.min(parseInt(prev) + 2, 24)}px`) // Max 24px
   }

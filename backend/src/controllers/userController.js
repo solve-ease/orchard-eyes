@@ -26,7 +26,24 @@ export const getUser = async (req, res) => {
   console.log('req received')
   try {
     const { email } = req.query
-    const user = await prisma.user.findUnique({ where: { email } })
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' })
+    }
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        Farm: {
+          include: {
+            Analysis: {
+              orderBy: {
+                dateTime: 'desc'
+              },
+              take: 1
+            }
+          }
+        }
+      }
+    })
     console.log(user)
     res.status(200).json(user)
   } catch (error) {
