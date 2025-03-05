@@ -6,3 +6,5 @@ pear/node_modules/
 hardware/myenv
 **/*.pth
 **/dataset/
+**/*.pt
+hardware/tree_detection/runs
