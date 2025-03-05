@@ -45,6 +45,11 @@ class GeminiIntegration:
         """Generate a response from Gemini given a query and optional context"""
         try:
             prompt = f"Context: {context}\n\nQuestion: {query}"
+            # prompt checking
+            print("Prompt checking: ")
+            print(prompt)
+
+
             response = genai.GenerativeModel(self.model_name).generate_content(prompt)
             return response.text
         except Exception as e:
@@ -66,6 +71,8 @@ class GeminiIntegration:
 
 # example usage
 gem = GeminiIntegration()
-response = gem.generate_response(query="Tell me about apple cultivation?")
-print(response)
+# response = gem.generate_response(query="Tell me about apple cultivation?")
+# print(response)
+
+print("Gemini Integeration working! ")
 
