@@ -117,7 +117,7 @@ from gemini_integ import GeminiIntegration
 
 # function call fo chatbot
 
-def get_response(query, top_k=2):
+def get_rag_response(query, top_k=2):
     # getting the query embedding:
     query_embed = embeddings.embed_query(query)
 
@@ -140,6 +140,6 @@ def get_response(query, top_k=2):
 
 # example usage
 query = input("Enter your query: ")
-response = get_response(query, top_k=3)
+response = get_rag_response(query, top_k=3)
 print(response)
 
