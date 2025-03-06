@@ -1,9 +1,0 @@
-# dataset.yaml
-path: /home/rogue/Desktop/codekshetra/AgriAero/hardware/apple_disease_classification/dataset
-train: images/train
-val: images/val
-
-# Class names
-names:
-  0: healthy
-  1: rotten
