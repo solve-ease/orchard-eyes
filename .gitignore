@@ -8,3 +8,4 @@ hardware/myenv
 **/dataset/
 **/*.pt
 hardware/tree_detection/runs
+**/runs
