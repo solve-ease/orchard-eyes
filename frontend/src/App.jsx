@@ -59,7 +59,12 @@ function AppContent() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await getAccessTokenSilently() // Tries to silently authenticate
+        await getAccessTokenSilently(
+          {
+            audience: VITE_AUTH0_AUDIENCE,
+            scope: 'openid profile email'
+          }
+        ) // Tries to silently authenticate
       } catch (error) {
         console.error('Silent authentication failed:', error)
       }
