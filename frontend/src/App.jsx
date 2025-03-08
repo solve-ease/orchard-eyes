@@ -60,12 +60,10 @@ function AppContent() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await getAccessTokenSilently(
-          {
-            audience: VITE_AUTH0_AUDIENCE,
-            scope: 'openid profile email'
-          }
-        ) // Tries to silently authenticate
+        await getAccessTokenSilently({
+          audience: VITE_AUTH0_AUDIENCE,
+          scope: 'openid profile email'
+        }) // Tries to silently authenticate
       } catch (error) {
         console.error('Silent authentication failed:', error)
       }
@@ -162,7 +160,7 @@ function AppContent() {
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/ownerPage' element={<ProfilePage />} />
-          <Route
+          {/* <Route
             path='farm-management'
             element={
               <OrchardManagement
@@ -171,8 +169,8 @@ function AppContent() {
                 handleWeatherData={handleWeatherData}
               />
             }
-          >
-            {/* <Route
+          > */}
+          <Route
             path='farm-management'
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
@@ -182,7 +180,7 @@ function AppContent() {
                 />
               </ProtectedRoute>
             }
-          > */}
+          >
             <Route
               path='analysis'
               element={
@@ -229,15 +227,15 @@ function AppContent() {
               }
             />
           </Route>
-          <Route path='/connect' element={<ConnectDrone />} />
-          {/* <Route
+          {/* <Route path='/connect' element={<ConnectDrone />} /> */}
+          <Route
             path='/connect'
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <ConnectDrone />
               </ProtectedRoute>
             }
-          /> */}
+          />
           <Route path='/chatbot' element={<Chatbot />} />
           <Route path='/models-report' element={<ModelsReport />} />
           <Route path='/orchard' element={<OrchardPage />} />
