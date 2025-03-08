@@ -26,6 +26,7 @@ import MobileOnlyModal from './components/MobileOnlyModal'
 import { useUser } from './context/userContext'
 import { useAlert } from './context/AlertContext'
 import AlertContainer from './components/alert/AlertContainer'
+const { VITE_AUTH0_AUDIENCE } = import.meta.env
 
 function App() {
   return <AppContent />
