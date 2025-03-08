@@ -14,7 +14,9 @@ const Auth0ProviderWithHistory = ({ children }) => {
       domain={VITE_AUTH0_DOMAIN}
       clientId={VITE_AUTH0_CLIENT_ID}
       authorizationParams={{
-        redirect_uri: window.location.origin
+        redirect_uri: window.location.origin,
+        audience: VITE_AUTH0_AUDIENCE,
+        scope: 'openid profile email'
       }}
       onRedirectCallback={onRedirectCallback}
       cacheLocation='localstorage' // Ensures session persists after reload
