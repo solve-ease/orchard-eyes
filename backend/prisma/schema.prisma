@@ -12,11 +12,12 @@ model Analysis {
   id                 Int      @id @default(autoincrement())
   detected_diseases  Json
   organ_counts       Json
-  waterStress        Float?  
+  waterStress        Float?
   chlorophyllContent Float?
   farmId             Int
   dateTime           DateTime @default(now())
   Farm               Farm     @relation(fields: [farmId], references: [id])
+  score              Float    @default(0)
 }
 
 model Chat {
@@ -29,14 +30,15 @@ model Chat {
 }
 
 model Farm {
-  id       Int        @id @default(autoincrement())
-  size     Float
-  species  String
-  location String
-  userId   Int
-  Analysis Analysis[]
-  User     User       @relation(fields: [userId], references: [id])
-  Soil     Soil[]
+  id           Int        @id @default(autoincrement())
+  size         Float
+  species      String
+  location     String
+  userId       Int
+  Analysis     Analysis[]
+  User         User       @relation(fields: [userId], references: [id])
+  Soil         Soil[]
+  OverallScore Float      @default(0)
 }
 
 model Message {

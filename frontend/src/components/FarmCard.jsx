@@ -9,7 +9,8 @@ import {
   AlertTriangle,
   Bot,
   Cloud,
-  CloudAlert
+  CloudAlert,
+  BarChart2
 } from 'lucide-react'
 import Card from './Card'
 import DoughnutChartWithImage from '../components/charts/DoughnutChartWithImage'
@@ -124,7 +125,7 @@ const FarmDashboard = ({ weatherData }) => {
             >
               OVERVIEW
             </h2>
-            <div className='grid grid-cols-2 sm:grid-cols-2 gap-y-4 sm:gap-x-8 w-[80vw] sm:w-auto'>
+            <div className='grid grid-cols-2 sm:grid-cols-2 gap-y-4 gap-x-4 sm:gap-x-8 w-[80vw] sm:w-auto'>
               <div className='flex items-start space-x-3'>
                 <div className='p-2 bg-white/20 backdrop-blur-sm rounded-full'>
                   <Leaf className='text-white' size={24} />
@@ -143,14 +144,21 @@ const FarmDashboard = ({ weatherData }) => {
                   <p className='font-semibold'>Apple Scab</p>
                 </div>
               </div>
-              <div className='col-span-2'>
+              <div className='col-span-1 '>
                 <p className='text-sm text-white/80 mb-1'>Estimated Yield</p>
                 <div className='w-full bg-white/20 rounded-full h-2.5'>
                   <div className='bg-white h-2.5 rounded-full w-3/4'></div>
                 </div>
-                <p className='text-sm mt-1'>
-                  75% of target (12.5 tons/hectare)
-                </p>
+                <p className='text-sm mt-1'>12.5 Tons</p>
+              </div>
+              <div className='col-span-1 flex pl-1 items-center space-x-3'>
+                <div className='p-2 bg-white/20 backdrop-blur-sm rounded-full'>
+                  <BarChart2 className='text-white' size={24} />
+                </div>
+                <div className='flex flex-col'>
+                  <p className='text-sm text-white/80'>Farm Score</p>
+                  <p className='text-3xl font-bold'>88</p>
+                </div>
               </div>
             </div>
           </div>

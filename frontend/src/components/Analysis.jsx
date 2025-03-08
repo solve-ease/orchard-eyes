@@ -6,7 +6,9 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  RefreshCcw
+  RefreshCcw,
+  RefreshCw,
+  Timer
 } from 'lucide-react'
 import LineChart from './charts/LineChart'
 import PieChart from './charts/PieChart'
@@ -17,10 +19,12 @@ import PrecisionMap from './charts/PrecisionMap'
 import { getFarmMetrics, getLastAnalysis } from '../api'
 import { useUser } from '../context/userContext'
 import { useAlert } from '../context/AlertContext'
+import { useNavigate } from 'react-router-dom'
 
 const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
   const { userData, setUserData } = useUser()
   const { success, error } = useAlert()
+  const navigate = useNavigate()
   let farmMetrics = null
   if (userData && userData.Farm && userData.Farm[0].Analysis) {
     farmMetrics = userData.Farm[0].Analysis[0]
@@ -123,13 +127,19 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
             labels={Object.keys(data.detected_diseases)}
           />
           <div className='w-[80vw] flex flex-col gap-6'>
-            <div className='flex justify-between bg-gradient-to-br from-red-400 to-red-500 border border-red-500 p-4 rounded-lg'>
+            <div
+              className='flex justify-between bg-gradient-to-br from-red-400 to-red-500 border border-red-500 p-4 rounded-lg'
+              onClick={() => navigate('/farm-management/home')}
+            >
               <p className='text-center text-red-100 font-semibold text-lg'>
                 View Diseased Areas
               </p>
               <ChevronRight color='#edbdbd' />
             </div>
-            <div className='flex justify-between bg-gradient-to-br from-green-600 to-green-700 border border-green-500 p-4 rounded-lg'>
+            <div
+              className='flex justify-between bg-gradient-to-br from-green-600 to-green-700 border border-green-500 p-4 rounded-lg'
+              onClick={() => navigate('/chatbot')}
+            >
               <p className='text-center text-green-200 font-semibold text-lg'>
                 View Suggestions
               </p>
@@ -232,7 +242,7 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
     <div className='flex bg-white sm:pl-48 flex-col gap-6 bg-[#dedede] min-h-screen items-center'>
       {farmMetrics ? (
         <div className='relative w-screen sm:w-[70vw] p-4'>
-          <div className='flex justify-between items-center mb-6'>
+          <div className='flex justify-between items-center mb-3'>
             <button
               onClick={() => handleSlideChange('prev')}
               className='p-2 hover:bg-gray-100 rounded-full transition-colors'
@@ -249,7 +259,21 @@ const Analysis = ({ currentAnalysisSlide, setCurrentAnalysisSlide }) => {
               <ChevronRight className='w-6 h-6 text-gray-600' />
             </button>
           </div>
-
+          <div className='flex justify-between px-3 mb-4 items-center'>
+            <span className='flex items-center gap-2'>
+              {/* <span className='rounded-full'>
+                <Timer size={18} className='text-gray-600' />
+              </span> */}
+              <p className='text-center text-gray-600'>
+                {farmMetrics.dateTime.slice(0, 10)}
+              </p>
+            </span>
+            <RefreshCw
+              size={18}
+              className='text-gray-600'
+              onClick={fetchLastAnalysis}
+            />
+          </div>
           <div className={`transition-all duration-300 ${slideAnimation}`}>
             {slides[currentAnalysisSlide].component({ data: farmMetrics })}
           </div>

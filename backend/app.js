@@ -59,14 +59,22 @@ app.post('/farm-metrics', async (req, res) => {
   //getting farm metrics from drone/ml server
   console.log('req received', req.body)
   const data = req.body.Tree_Health_Report
-  //uploading analysis data to db
+
+  //calculate the farm score out of analysis data
+  const farmScore = 88
+
+  //uploading analysis data to db and middleware updates overallScore in farm score itself
   await prisma.analysis.create({
     data: {
       detected_diseases: data.Detected_Diseases,
       organ_counts: data.Organ_Counts,
-      farmId: data.farmId
+      farmId: data.farmId,
+      score: farmScore
     }
   })
+
+  //uploading analysis data to blockchain
+
   //not using sse code now
   // clients.forEach((client) => {
   //   client.write(`data: ${JSON.stringify(req.body)}\n\n`)

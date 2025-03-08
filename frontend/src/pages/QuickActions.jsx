@@ -49,8 +49,7 @@ const QuickActions = ({ activeTab, setActiveTab, setCurrentAnalysisSlide }) => {
       label: 'Disease Detection',
       color: 'bg-red-100',
       iconColor: 'text-red-600',
-      route: '/farm-management/image-upload',
-      functions: setCurrentAnalysisSlide(2)
+      route: '/farm-management/image-upload'
     },
     {
       icon: <Droplets size={40} />,
@@ -76,7 +75,8 @@ const QuickActions = ({ activeTab, setActiveTab, setCurrentAnalysisSlide }) => {
       icon: <Bot size={40} />,
       label: 'Personalised Insights',
       color: 'bg-purple-100',
-      iconColor: 'text-purple-400'
+      iconColor: 'text-purple-400',
+      route: '/chatbot'
     }
   ]
 
