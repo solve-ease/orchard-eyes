@@ -4,7 +4,7 @@ export const getLastAnalysis = async (req, res) => {
   try {
     const { farmId } = req.query
     // const userId = req.user.sub; // Extracted from Auth0 token
-    const userId = 2 // Extracted from Auth0 token
+    const userId = 1 // Extracted from Auth0 token
 
     if (!farmId) {
       return res.status(400).json({ error: 'farmId is required' })
@@ -36,7 +36,7 @@ export const getLastAnalysis = async (req, res) => {
     res.json(lastAnalysis)
   } catch (error) {
     console.error('Error fetching last analysis:', error)
-    res.status(500).json({ error: 'Internal server error' })
+    res.status(500).json({ error: 'Internal server error, PLease try again' })
   }
 }
 export const getAllAnalysis = async (req, res) => {}

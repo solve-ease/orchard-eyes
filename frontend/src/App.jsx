@@ -156,7 +156,7 @@ function AppContent() {
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/ownerPage' element={<ProfilePage />} />
-          {/* <Route
+          <Route
             path='farm-management'
             element={
               <OrchardManagement
@@ -165,8 +165,8 @@ function AppContent() {
                 handleWeatherData={handleWeatherData}
               />
             }
-          > */}
-          <Route
+          >
+            {/* <Route
             path='farm-management'
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
@@ -176,7 +176,7 @@ function AppContent() {
                 />
               </ProtectedRoute>
             }
-          >
+          > */}
             <Route
               path='analysis'
               element={

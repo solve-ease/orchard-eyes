@@ -21,7 +21,7 @@ const ExpandedWeatherCard = ({ weatherData, setWeatherData, isLoading }) => {
   if (isLoading) {
     return <HashLoader />
   }
-  if (!weatherData && !isLoading) {
+  if (weatherData.error || (!weatherData && !isLoading)) {
     return (
       <div className='flex flex-col items-center justify-center p-8 min-h-[400px]'>
         {/* Weather Icon */}
